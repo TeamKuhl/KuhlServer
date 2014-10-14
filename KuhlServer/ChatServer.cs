@@ -36,6 +36,7 @@ namespace KuhlServer
 
         public void DisconnectEvent(TcpClient client)
         {
+            Server.sendToAllExcept(client, "message", User[client.Client.GetHashCode()] + " disconnected");
             Console.WriteLine("Client " + User[client.Client.GetHashCode()] + "(" + client.Client.GetHashCode() + ") disconnected from Server");
             User.Remove(client.Client.GetHashCode());
         }
@@ -54,6 +55,7 @@ namespace KuhlServer
                 case "name":
                     User[client.Client.GetHashCode()] = message;
                     Console.WriteLine("Client " + client.Client.GetHashCode() + " is connected as " + message);
+                    Server.sendToAllExcept(client, "message", message + " connected");
                     break;
             }
         }
